@@ -11,14 +11,14 @@ const DEFAULT_MOUSE_POSITION:MousePosition = {
 }
 interface ElementToHover {
     elementClass:string,
-    hoverClass:string,
-    scrollingElements?:Element[]
+    hoverClass:string
 }
 
 interface Options {
     initialMousePosition?:MousePosition,
     scrollOffset?:number,
-    mouseOffset?:number
+    mouseOffset?:number,
+    scrollingElements?:Element[]
 }
 
 interface ElementAndIndex {
@@ -44,6 +44,7 @@ export default class HoverOnScroll {
         this.scrollOffset = options?.scrollOffset || 0
         this.mouseOffset = options?.mouseOffset || 0;
         this.mousePosition = options?.initialMousePosition || {x:0,y:this.mouseOffset}
+        this.scrollingElements = options?.scrollingElements || []
         this.elementsToHover = elementsToHover
         this.activeElement = null;
         this.ticking = false;
@@ -51,7 +52,7 @@ export default class HoverOnScroll {
         if(!this.isTouchDevice){
             addEventListener("mousemove",this.onMouseMove)
             addEventListener("scroll",this.onScroll)
-            for(const scrollingElement of this.getAllScrollingElements()){
+            for(const scrollingElement of this.scrollingElements){
                 scrollingElement.addEventListener("scroll",this.onScroll)
             }
         }else{
@@ -59,11 +60,10 @@ export default class HoverOnScroll {
             addEventListener("click",this.onClick)
         }
     }
-    getAllScrollingElements():Element[]{
-        return this.elementsToHover.filter(e=>e.scrollingElements).reduce((a,e)=>[...a,...e.scrollingElements],[])
-    }
+
     private mousePosition:MousePosition
     private elementsToHover:ElementToHover[]
+    private scrollingElements:Element[]
     private activeElement:ElementAndIndex | null
     private ticking:boolean
     private isTouchDevice:boolean
@@ -125,7 +125,7 @@ export default class HoverOnScroll {
         if(!this.isTouchDevice){
             removeEventListener("mousemove",this.onMouseMove)
             removeEventListener("scroll",this.onScroll)
-            for(const scrollingElement of this.getAllScrollingElements()){
+            for(const scrollingElement of this.scrollingElements){
                 scrollingElement.removeEventListener("scroll",this.onScroll)
             }
         }else{

@@ -12,10 +12,11 @@ export const Main = function(){
             hoverOnScroll = new HoverOnScroll([
                 {
                     hoverClass:"hover",
-                    elementClass:"square",
-                    scrollingElements:[ref.current]
+                    elementClass:"square"
                 }
-            ])
+            ],{
+                scrollingElements:[ref.current]
+            })
         }
 
         return ()=>{
