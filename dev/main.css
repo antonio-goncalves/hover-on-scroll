@@ -10,13 +10,20 @@
     background-color: #d0f5c8;
 }
 
-
+.scroll-area-container {
+    text-align: center;
+    margin: 0 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .scroll-area {
     height:400px;
     overflow: scroll;
-    margin: 0px 10px;
+    margin: 0 10px;
 }
 
 .scroll-areas {
     display: flex;
+    justify-content: center;
 }

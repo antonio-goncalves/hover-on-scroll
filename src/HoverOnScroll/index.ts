@@ -5,18 +5,19 @@ interface MousePosition {
     y:number
 }
 
-const DEFAULT_MOUSE_POSITION:MousePosition = {
-    x:0,
-    y:0
-}
 interface ElementToHover {
     elementClass:string,
     hoverClass:string
 }
 
+interface TouchBehaviour {
+    scrollWhenTouch?:boolean,
+    offsetWhenScroll?:number
+}
+
 interface Options {
     initialMousePosition?:MousePosition,
-    scrollOffset?:number,
+    touchBehaviour?:TouchBehaviour,
     mouseOffset?:number,
     scrollingElements?:Element[]
 }
@@ -41,11 +42,12 @@ export default class HoverOnScroll {
         this.onClick = this.onClick.bind(this)
 
 
-        this.scrollOffset = options?.scrollOffset || 0
         this.mouseOffset = options?.mouseOffset || 0;
         this.mousePosition = options?.initialMousePosition || {x:0,y:this.mouseOffset}
         this.scrollingElements = options?.scrollingElements || []
         this.elementsToHover = elementsToHover
+        this.scrollWhenTouch = options?.touchBehaviour?.scrollWhenTouch || false
+        this.offsetWhenScroll = options?.touchBehaviour?.offsetWhenScroll || 0
         this.activeElement = null;
         this.ticking = false;
         this.isTouchDevice = isTouchDevice()
@@ -67,8 +69,9 @@ export default class HoverOnScroll {
     private activeElement:ElementAndIndex | null
     private ticking:boolean
     private isTouchDevice:boolean
-    private scrollOffset: number
     private mouseOffset:number
+    private scrollWhenTouch:boolean
+    private offsetWhenScroll:number
     onClick(e:MouseEvent){
         if(e.target instanceof Element){
             if(!this.getElement(e.target)){
@@ -98,8 +101,11 @@ export default class HoverOnScroll {
                     }else {
                         element.classList.add(elementToHover.hoverClass)
                         const elementPosition = element.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.scrollY - this.scrollOffset;
-                        window.scroll({top:offsetPosition})
+                        if(this.scrollWhenTouch){
+                            const offsetPosition = elementPosition + window.scrollY - this.offsetWhenScroll;
+                            window.scroll({top:offsetPosition})
+                        }
+
                     }
 
                 }

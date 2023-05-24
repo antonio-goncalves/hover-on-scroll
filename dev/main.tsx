@@ -15,7 +15,11 @@ export const Main = function(){
                     elementClass:"square"
                 }
             ],{
-                scrollingElements:[ref.current]
+                scrollingElements:[ref.current],
+                touchBehaviour:{
+                    scrollWhenTouch:true
+                }
+
             })
         }
 
@@ -34,10 +38,13 @@ export const Main = function(){
         return squares
     }
 
-    function renderScrollArea(manual?:boolean){
+    function renderScrollArea(title:string,manual?:boolean){
         return (
-            <div className={"scroll-area"} ref={ref}>
-                {renderSquares(manual?"manual-hover":"")}
+            <div className={"scroll-area-container"}>
+                <h1>{title}</h1>
+                <div className={"scroll-area"} ref={ref}>
+                    {renderSquares(manual?"manual-hover":"")}
+                </div>
             </div>
         )
     }
@@ -49,8 +56,8 @@ export const Main = function(){
     function renderScrollAreas(){
         return (
             <div className={"scroll-areas"}>
-                {renderScrollArea()}
-                {renderScrollArea(true)}
+                {renderScrollArea("With :hover")}
+                {renderScrollArea("With HoverOnScroll",true)}
             </div>
         )
     }
