@@ -2,7 +2,7 @@
 
 ![Sample video](static/sample.gif)
 
-HoverOnScroll is a JavaScript library that adds support to hover effects during while scrolling the window or the element container, it was developed to overcome the limitation of browsers of applying the css ```:hover``` during scroll
+HoverOnScroll is a JavaScript library that adds support to hover effects while scrolling the window or a container, it was developed to overcome the limitation of browsers to apply the css ```:hover``` effect during scroll
 
 ## Sample
 
@@ -16,17 +16,12 @@ npm run start
 ## Properties
 
 ```typescript jsx
+import HoverOnScroll from "@antonio-goncalves/hover-on-scroll";
 
 const hoverOnScroll = new HoverOnScroll([elementToHover1,elementToHover2],options)
 
 function destroy(){
     hoverOnScroll.destroy()
-}
-interface Options {
-    initialMousePosition?:MousePosition,
-    touchBehaviour?:TouchBehaviour,
-    mouseOffset?:number,
-    scrollingElements?:Element[]
 }
 ```
 ### ElementToHover
